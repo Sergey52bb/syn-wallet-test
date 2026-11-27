@@ -1,0 +1,305 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SYN WALLET — DEMO</title>
+<style>
+:root {
+  --bg:#050b14;
+  --panel:#0d141d;
+  --blue:#4DB8FF;
+  --green:#00ff95;
+  --border:rgba(255,255,255,.08);
+}
+* {box-sizing:border-box}
+body {
+  margin:0;
+  background:var(--bg);
+  color:white;
+  font-family:Arial,sans-serif;
+}
+header {
+  text-align:center;
+  padding:38px 15px 30px;
+  background:linear-gradient(145deg,#10243b,#07101c);
+  border-radius:0 0 25px 25px;
+}
+.subtitle {
+  color:var(--blue);
+  font-size:12px;
+  font-weight:bold;
+  letter-spacing:2px;
+}
+.demo {
+  display:inline-block;
+  margin-top:12px;
+  padding:5px 10px;
+  border-radius:12px;
+  background:#493b17;
+  color:#ffd76a;
+  font-size:10px;
+}
+h1 {font-size:36px;margin:15px 0 5px}
+main {padding:15px 15px 100px}
+.asset-item {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:12px;
+  margin-bottom:11px;
+  background:var(--panel);
+  border:1px solid rgba(77,184,255,.2);
+  border-radius:19px;
+}
+.asset-icon {
+  width:43px;height:43px;
+  border-radius:50%;
+  background:#1a2938;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:21px;
+}
+.asset-details {flex:1;min-width:0}
+.asset-name {font-size:15px;font-weight:bold}
+.asset-price {font-size:12px;color:var(--green);margin-top:5px}
+.ton-badge {
+  display:block;
+  width:max-content;
+  margin-top:4px;
+  padding:2px 7px;
+  border-radius:10px;
+  background:#168BFF;
+  color:white;
+  font-size:9px;
+  letter-spacing:.5px;
+}
+.chart-btn {
+  width:40px;height:40px;
+  border-radius:13px;
+  border:1px solid rgba(77,184,255,.35);
+  background:rgba(77,184,255,.12);
+  color:var(--blue);
+  font-size:20px;
+}
+.balance {font-size:12px;min-width:45px;text-align:right}
+nav {
+  position:fixed;
+  bottom:12px;left:12px;right:12px;
+  height:65px;
+  display:flex;
+  background:#101b29;
+  border:1px solid var(--border);
+  border-radius:22px;
+}
+nav button {
+  flex:1;
+  background:none;border:0;
+  color:white;font-size:25px;
+  opacity:.6;
+}
+nav button.active {opacity:1}
+.screen {display:none}
+.screen.active {display:block}
+.card {
+  padding:20px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:22px;
+  margin-top:15px;
+}
+.modal {
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:10;
+  background:#000c;
+  align-items:flex-end;
+}
+.modal-content {
+  width:100%;
+  padding:24px 20px 35px;
+  background:#111a27;
+  border-radius:28px 28px 0 0;
+}
+#coin_chart {width:100%;height:190px}
+.close {
+  width:100%;
+  padding:14px;
+  margin-top:15px;
+  background:var(--blue);
+  border:0;border-radius:14px;
+  font-weight:bold;
+}
+</style>
+</head>
+<body>
+
+<section id="wallet" class="screen active">
+<header>
+  <div class="subtitle">👛 SYN WALLET</div>
+  <div class="demo">DEMO VERSION · TEST DATA</div>
+  <div style="font-size:11px;opacity:.6;margin-top:20px">
+    DEMONSTRATION BALANCE
+  </div>
+  <h1>$1,250.00</h1>
+  <div style="font-size:11px;color:var(--blue)">
+    Учебный макет · Не реальные средства
+  </div>
+</header>
+
+<main>
+  <div id="asset_list"></div>
+</main>
+</section>
+
+<section id="swap" class="screen">
+<main>
+  <div class="card">
+    <h3>🌀 SWAP DEMO</h3>
+    <p>Демонстрационный экран обмена.</p>
+    <p style="color:var(--blue)">
+      Реальные операции отключены.
+    </p>
+  </div>
+</main>
+</section>
+
+<section id="connect" class="screen">
+<main>
+  <div class="card" style="text-align:center">
+    <h3>💳 WALLET CONNECTION</h3>
+    <p>Подключение кошелька отключено в тестовой версии.</p>
+    <p style="color:var(--green)">DEMO MODE</p>
+  </div>
+</main>
+</section>
+
+<nav>
+  <button class="active" onclick="showTab('wallet',this)">📊</button>
+  <button onclick="showTab('swap',this)">🌀</button>
+  <button onclick="showTab('connect',this)">💳</button>
+</nav>
+
+<div class="modal" id="chart_modal" onclick="closeChart()">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <h2 id="chart_title">GRAM</h2>
+    <p style="color:var(--green)">Демонстрационный график</p>
+    <canvas id="coin_chart"></canvas>
+    <p style="font-size:11px;opacity:.5">
+      График построен на условных данных.
+    </p>
+    <button class="close" onclick="closeChart()">ЗАКРЫТЬ</button>
+  </div>
+</div>
+
+<script>
+const assets = [
+  {id:'TON',name:'Toncoin',icon:'💎',price:'$2.10',balance:'12.5000'},
+  {id:'BTC',name:'Bitcoin',icon:'₿',price:'$95,000',balance:'0.0250'},
+  {id:'USDT',name:'Tether',icon:'₮',price:'$1.00',balance:'150.00'},
+  {id:'ETH',name:'Ethereum',icon:'◆',price:'$3,200',balance:'0.5000'},
+  {id:'SOL',name:'Solana',icon:'◎',price:'$180',balance:'2.5000'},
+  {id:'NEAR',name:'Near',icon:'Ⓝ',price:'$5.20',balance:'10.0000'},
+  {id:'USDC',name:'USD Coin',icon:'＄',price:'$1.00',balance:'75.00'},
+  {id:'DOGE',name:'Dogecoin',icon:'Ð',price:'$0.15',balance:'100.00'},
+  {id:'BNB',name:'BNB',icon:'◆',price:'$620',balance:'0.2000'}
+];
+
+const list=document.getElementById('asset_list');
+
+assets.forEach(asset=>{
+  const row=document.createElement('div');
+  row.className='asset-item';
+
+  const icon=document.createElement('div');
+  icon.className='asset-icon';
+  icon.textContent=asset.icon;
+
+  const details=document.createElement('div');
+  details.className='asset-details';
+
+  const name=document.createElement('div');
+  name.className='asset-name';
+  name.textContent=asset.id==='TON'?'GRAM':asset.id;
+
+  if(asset.id==='TON'){
+    const badge=document.createElement('span');
+    badge.className='ton-badge';
+    badge.textContent='TON';
+    name.appendChild(badge);
+  }
+
+  const price=document.createElement('div');
+  price.className='asset-price';
+  price.textContent=asset.price;
+
+  details.append(name,price);
+
+  const chart=document.createElement('button');
+  chart.className='chart-btn';
+  chart.textContent='📈';
+  chart.setAttribute('aria-label','График '+asset.id);
+  chart.onclick=()=>openChart(asset);
+
+  const balance=document.createElement('div');
+  balance.className='balance';
+  balance.textContent=asset.balance;
+
+  row.append(icon,details,chart,balance);
+  list.appendChild(row);
+});
+
+function showTab(id,button){
+  document.querySelectorAll('.screen')
+    .forEach(el=>el.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+
+  document.querySelectorAll('nav button')
+    .forEach(el=>el.classList.remove('active'));
+  button.classList.add('active');
+}
+
+function openChart(asset){
+  document.getElementById('chart_title').textContent=
+    asset.id==='TON'?'GRAM (TON)':asset.id;
+
+  document.getElementById('chart_modal').style.display='flex';
+  drawDemoChart();
+}
+
+function closeChart(){
+  document.getElementById('chart_modal').style.display='none';
+}
+
+function drawDemoChart(){
+  const canvas=document.getElementById('coin_chart');
+  const rect=canvas.getBoundingClientRect();
+  const ratio=window.devicePixelRatio||1;
+
+  canvas.width=rect.width*ratio;
+  canvas.height=190*ratio;
+
+  const ctx=canvas.getContext('2d');
+  ctx.scale(ratio,ratio);
+
+  const w=rect.width;
+  const h=190;
+  const points=[110,95,120,85,100,65,90,55,75,40,60,30];
+
+  ctx.beginPath();
+  points.forEach((y,i)=>{
+    const x=i*(w/(points.length-1));
+    if(i===0)ctx.moveTo(x,y);
+    else ctx.lineTo(x,y);
+  });
+
+  ctx.strokeStyle='#4DB8FF';
+  ctx.lineWidth=2;
+  ctx.stroke();
+}
+</script>
+</body>
+</html>
