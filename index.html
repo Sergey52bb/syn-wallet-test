@@ -2,303 +2,219 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#071321">
 <title>SYN WALLET — DEMO</title>
 <style>
-:root {
-  --bg:#050b14;
-  --panel:#0d141d;
-  --blue:#4DB8FF;
-  --green:#00ff95;
-  --border:rgba(255,255,255,.07);
+:root{
+  --bg:#071321;--bg2:#0a1b2c;--panel:#102338;--panel2:#132b42;
+  --blue:#42b8ff;--blue2:#167ed0;--lime:#b7f36b;--lime2:#8edb43;
+  --text:#f3f8fc;--muted:#91a7b9;--line:rgba(137,190,225,.13);
 }
-* {box-sizing:border-box}
-body {
-  margin:0;
-  background:var(--bg);
-  color:white;
-  font-family:Arial,sans-serif;
-}
-header {
-  text-align:center;
-  padding:38px 15px 30px;
-  background:linear-gradient(145deg,#10243b,#07101c);
-  border-radius:0 0 25px 25px;
-}
-.subtitle {
-  color:var(--blue);
-  font-size:12px;
-  font-weight:bold;
-  letter-spacing:2px;
-}
-.demo {
-  display:inline-block;
-  margin-top:12px;
-  padding:5px 10px;
-  border-radius:12px;
-  background:#493b17;
-  color:#ffd76a;
-  font-size:10px;
-}
-h1 {font-size:36px;margin:15px 0 5px}
-main {padding:15px 15px 100px}
-.asset-item {
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:12px;
-  margin-bottom:11px;
-  background:var(--panel);
-  border:1px solid rgba(77,184,255,.2);
-  border-radius:19px;
-}
-.asset-icon {
-  width:43px;height:43px;
-  border-radius:50%;
-  background:#1a2938;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:21px;
-}
-.asset-details {flex:1;min-width:0}
-.asset-name {font-size:15px;font-weight:bold}
-.asset-price {font-size:12px;color:var(--green);margin-top:5px}
-.ton-badge {
-  display:block;
-  width:max-content;
-  margin-top:4px;
-  padding:2px 7px;
-  border-radius:10px;
-  background:#168BFF;
-  color:white;
-  font-size:9px;
-  letter-spacing:.5px;
-}
-.chart-btn {
-  width:40px;height:40px;
-  border-radius:13px;
-  border:1px solid rgba(77,184,255,.35);
-  background:rgba(77,184,255,.12);
-  color:var(--blue);
-  font-size:20px;
-}
-.balance {font-size:12px;min-width:45px;text-align:right}
-nav {
-  position:fixed;
-  bottom:12px;left:12px;right:12px;
-  height:65px;
-  display:flex;
-  background:#101b29;
-  border:1px solid var(--border);
-  border-radius:22px;
-}
-nav button {
-  flex:1;
-  background:none;border:0;
-  color:white;font-size:25px;
-  opacity:.6;
-}
-nav button.active {opacity:1}
-.screen {display:none}
-.screen.active {display:block}
-.card {
-  padding:20px;
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:22px;
-  margin-top:15px;
-}
-.modal {
-  display:none;
-  position:fixed;
-  inset:0;
-  z-index:10;
-  background:#000c;
-  align-items:flex-end;
-}
-.modal-content {
-  width:100%;
-  padding:24px 20px 35px;
-  background:#111a27;
-  border-radius:28px 28px 0 0;
-}
-#coin_chart {width:100%;height:190px}
-.close {
-  width:100%;
-  padding:14px;
-  margin-top:15px;
-  background:var(--blue);
-  border:0;border-radius:14px;
-  font-weight:bold;
-}
+*{box-sizing:border-box}
+html{background:var(--bg);scroll-behavior:smooth}
+body{margin:0;color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif;
+ background:radial-gradient(ellipse at 50% -15%,#153a5a 0%,#0a1b2c 42%,var(--bg) 78%);min-height:100vh}
+button{font:inherit}
+.app{max-width:520px;margin:0 auto;min-height:100vh;padding-bottom:104px}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:22px 20px 14px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:1.6px;font-size:15px}
+.brand-mark{width:35px;height:35px;border-radius:12px;display:grid;place-items:center;
+ background:linear-gradient(145deg,#4dc5ff,#176fbd);box-shadow:0 5px 20px #168bd955;font-size:18px}
+.status{font-size:10px;letter-spacing:1px;color:var(--lime);border:1px solid #b7f36b55;
+ background:#b7f36b12;border-radius:20px;padding:7px 10px;font-weight:800}
+.screen{display:none}.screen.active{display:block}
+.hero{margin:8px 16px 18px;padding:22px 20px 20px;border-radius:25px;position:relative;overflow:hidden;
+ background:linear-gradient(135deg,#163b5a 0%,#102b45 55%,#10263b 100%);
+ border:1px solid #64c4ff28;box-shadow:0 15px 35px #0003}
+.hero:after{content:"";position:absolute;width:190px;height:190px;border-radius:50%;right:-75px;top:-95px;
+ background:radial-gradient(circle,#49bdff35,transparent 68%);pointer-events:none}
+.hero-label{color:#a9c5d9;font-size:11px;letter-spacing:1.3px;font-weight:700}
+.hero-balance{font-size:36px;font-weight:800;letter-spacing:-1.2px;margin:10px 0 5px}
+.hero-note{font-size:11px;color:#a8c0d1}
+.hero-bottom{display:flex;align-items:center;justify-content:space-between;margin-top:22px;gap:8px}
+.demo-tag{font-size:9px;color:var(--lime);background:#b7f36b15;border:1px solid #b7f36b45;
+ padding:6px 9px;border-radius:20px;font-weight:800;letter-spacing:.7px}
+.hero-dot{width:7px;height:7px;background:var(--lime);display:inline-block;border-radius:50%;margin-right:5px}
+.quick-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:0 16px;margin-bottom:24px}
+.quick{border:1px solid var(--line);background:#10263a;border-radius:17px;padding:13px 8px;text-align:center;color:var(--text)}
+.quick-icon{display:block;font-size:20px;margin-bottom:6px}.quick-label{font-size:11px;font-weight:700}
+.section-head{display:flex;align-items:center;justify-content:space-between;padding:0 20px 12px}
+.section-title{font-size:16px;font-weight:800}.section-sub{font-size:10px;color:var(--muted)}
+.asset-list{padding:0 14px}
+.asset-item{display:flex;align-items:center;gap:11px;padding:13px 12px;margin-bottom:9px;
+ background:linear-gradient(110deg,#102338,#0d1e30);border:1px solid var(--line);border-radius:18px;min-height:76px}
+.asset-icon{width:43px;height:43px;flex:0 0 43px;border-radius:15px;display:grid;place-items:center;
+ background:#1b3850;color:#dff4ff;font-size:20px;font-weight:800}
+.asset-details{flex:1;min-width:0}.asset-name{font-size:14px;font-weight:800;line-height:1.2}
+.asset-symbol{font-size:10px;color:var(--muted);margin-top:4px}
+.ton-badge{display:inline-block;margin-left:6px;vertical-align:1px;padding:2px 6px;border-radius:7px;
+ background:#168bff;color:white;font-size:8px;font-weight:900;letter-spacing:.5px}
+.asset-price{font-size:11px;color:var(--lime);margin-top:5px}
+.asset-right{text-align:right;min-width:66px}.balance{font-size:12px;font-weight:700}
+.balance-unit{font-size:9px;color:var(--muted);margin-top:4px}
+.chart-btn{width:34px;height:34px;border-radius:11px;border:1px solid #42b8ff40;background:#42b8ff12;
+ color:var(--blue);font-size:17px;margin-left:2px}
+.notice{margin:16px;padding:12px 14px;border:1px solid #b7f36b30;background:#b7f36b0b;
+ border-radius:14px;color:#b7c9b0;font-size:10px;line-height:1.5}
+.page-heading{padding:22px 20px 8px}.page-heading h1{font-size:24px;margin:0 0 6px}
+.page-heading p{font-size:12px;color:var(--muted);margin:0}
+.panel{margin:14px 16px;padding:19px;border-radius:22px;background:linear-gradient(145deg,#122b42,#0e2032);
+ border:1px solid var(--line)}
+.panel h2{font-size:16px;margin:0 0 8px}.panel p{font-size:12px;line-height:1.55;color:var(--muted)}
+.swap-box{padding:16px;background:#091a2a;border:1px solid var(--line);border-radius:17px;margin-top:12px}
+.swap-label{font-size:10px;color:var(--muted);margin-bottom:10px}
+.swap-value{display:flex;justify-content:space-between;align-items:center;font-size:22px;font-weight:800}
+.token-pill{font-size:12px;padding:7px 10px;background:#18364e;border-radius:12px;color:var(--lime)}
+.swap-arrow{display:grid;place-items:center;width:36px;height:36px;margin:-3px auto;border-radius:12px;
+ background:#1c3a50;border:3px solid #10263a;color:var(--lime);position:relative;z-index:1}
+.demo-button{width:100%;padding:14px;border:0;border-radius:14px;margin-top:15px;background:linear-gradient(90deg,#b7f36b,#8edb43);
+ color:#102018;font-weight:900;font-size:12px;letter-spacing:.5px}
+.connect-art{width:88px;height:88px;border-radius:28px;margin:8px auto 18px;display:grid;place-items:center;
+ background:linear-gradient(145deg,#1c83c5,#123b60);box-shadow:0 12px 30px #168bd944;font-size:38px}
+.feature{display:flex;gap:11px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line);font-size:12px}
+.feature:last-child{border:0}.feature-icon{width:32px;height:32px;border-radius:10px;background:#b7f36b12;display:grid;place-items:center}
+nav{position:fixed;z-index:5;bottom:max(12px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);
+ width:min(488px,calc(100% - 28px));height:68px;display:flex;align-items:center;padding:6px;
+ background:rgba(12,29,45,.94);backdrop-filter:blur(16px);border:1px solid #7ebbe52a;border-radius:22px;
+ box-shadow:0 12px 35px #0007}
+nav button{flex:1;height:54px;border:0;border-radius:16px;background:transparent;color:#7892a8;font-size:19px}
+nav button span{display:block;font-size:9px;margin-top:3px;font-weight:700}
+nav button.active{color:var(--lime);background:#b7f36b12}
+.modal{display:none;position:fixed;inset:0;z-index:10;background:#020812d9;align-items:flex-end;justify-content:center}
+.modal-content{width:min(520px,100%);padding:22px 20px 30px;background:#10263a;border:1px solid var(--line);
+ border-radius:26px 26px 0 0}
+.modal-head{display:flex;justify-content:space-between;align-items:center}.modal-head h2{font-size:20px;margin:0}
+.modal-close{border:0;background:#203c52;color:white;border-radius:10px;width:34px;height:34px;font-size:18px}
+.modal-caption{font-size:11px;color:var(--muted);margin:8px 0 15px}
+#coin_chart{display:block;width:100%;height:190px}
+@media(min-width:600px){body{padding-top:16px}.app{border:1px solid #ffffff10;border-radius:28px;overflow:hidden;background:#071321;min-height:calc(100vh - 32px)}}
 </style>
 </head>
 <body>
-
-<section id="wallet" class="screen active">
-<header>
-  <div class="subtitle">👛 SYN WALLET</div>
-  <div class="demo">DEMO VERSION · TEST DATA</div>
-  <div style="font-size:11px;opacity:.6;margin-top:20px">
-    DEMONSTRATION BALANCE
+<div class="app">
+  <div class="topbar">
+    <div class="brand"><div class="brand-mark">◇</div><span>SYN WALLET</span></div>
+    <div class="status"><span class="hero-dot"></span>DEMO MODE</div>
   </div>
-  <h1>$1,250.00</h1>
-  <div style="font-size:11px;color:var(--blue)">
-    Учебный макет · Не реальные средства
-  </div>
-</header>
 
-<main>
-  <div id="asset_list"></div>
-</main>
-</section>
+  <section id="wallet" class="screen active">
+    <div class="hero">
+      <div class="hero-label">ОБЩИЙ БАЛАНС · ДЕМО-ДАННЫЕ</div>
+      <div class="hero-balance">$1,250.00</div>
+      <div class="hero-note">Учебный баланс · Не реальные средства</div>
+      <div class="hero-bottom"><span class="demo-tag">TEST ENVIRONMENT</span><span class="hero-note">SYN WALLET</span></div>
+    </div>
+    <div class="quick-actions">
+      <button class="quick" onclick="showTab('connect',document.querySelectorAll('nav button')[2])"><span class="quick-icon">↗</span><span class="quick-label">Получить</span></button>
+      <button class="quick" onclick="showTab('swap',document.querySelectorAll('nav button')[1])"><span class="quick-icon">⇄</span><span class="quick-label">Обмен</span></button>
+      <button class="quick" onclick="showTab('connect',document.querySelectorAll('nav button')[2])"><span class="quick-icon">⌑</span><span class="quick-label">Кошелёк</span></button>
+    </div>
+    <div class="section-head"><div class="section-title">Мои активы</div><div class="section-sub">9 активов · DEMO</div></div>
+    <div id="asset_list" class="asset-list"></div>
+    <div class="notice">Это демонстрационный интерфейс. Балансы, цены и графики условные. Подключение кошелька и любые реальные операции отключены.</div>
+  </section>
 
-<section id="swap" class="screen">
-<main>
-  <div class="card">
-    <h3>🌀 SWAP DEMO</h3>
-    <p>Демонстрационный экран обмена.</p>
-    <p style="color:var(--blue)">
-      Реальные операции отключены.
-    </p>
-  </div>
-</main>
-</section>
+  <section id="swap" class="screen">
+    <div class="page-heading"><h1>Обмен активов</h1><p>Предварительный просмотр интерфейса · DEMO</p></div>
+    <div class="panel">
+      <h2>🌀 SWAP</h2><p>Макет экрана обмена. Все значения ниже приведены только для демонстрации.</p>
+      <div class="swap-box"><div class="swap-label">ОТДАЁТЕ</div><div class="swap-value"><span>10.00</span><span class="token-pill">USDT ▾</span></div></div>
+      <div class="swap-arrow">↓</div>
+      <div class="swap-box"><div class="swap-label">ПОЛУЧАЕТЕ · ПРИМЕР</div><div class="swap-value"><span>4.76</span><span class="token-pill">GRAM ▾</span></div></div>
+      <button class="demo-button" onclick="demoNotice()">ПРЕДПРОСМОТР ОБМЕНА</button>
+      <p id="swap_notice" style="font-size:10px;color:var(--lime);display:none">Это только макет. Реальный обмен не выполняется.</p>
+    </div>
+  </section>
 
-<section id="connect" class="screen">
-<main>
-  <div class="card" style="text-align:center">
-    <h3>💳 WALLET CONNECTION</h3>
-    <p>Подключение кошелька отключено в тестовой версии.</p>
-    <p style="color:var(--green)">DEMO MODE</p>
-  </div>
-</main>
-</section>
+  <section id="connect" class="screen">
+    <div class="page-heading"><h1>Подключение</h1><p>Экран безопасности и статуса · DEMO</p></div>
+    <div class="panel" style="text-align:center">
+      <div class="connect-art">◇</div>
+      <h2>Wallet connection</h2>
+      <p>В тестовой версии подключение кошелька отключено.</p>
+      <div style="text-align:left;margin-top:20px">
+        <div class="feature"><div class="feature-icon">✓</div><div>Демонстрационный режим включён</div></div>
+        <div class="feature"><div class="feature-icon">⌑</div><div>Секретные фразы и ключи не запрашиваются</div></div>
+        <div class="feature"><div class="feature-icon">⛨</div><div>Реальные операции недоступны</div></div>
+      </div>
+      <div class="demo-tag" style="margin-top:18px">CONNECTION DISABLED</div>
+    </div>
+  </section>
+</div>
 
 <nav>
-  <button class="active" onclick="showTab('wallet',this)">📊</button>
-  <button onclick="showTab('swap',this)">🌀</button>
-  <button onclick="showTab('connect',this)">💳</button>
+  <button class="active" onclick="showTab('wallet',this)">▦<span>Активы</span></button>
+  <button onclick="showTab('swap',this)">⇄<span>Обмен</span></button>
+  <button onclick="showTab('connect',this)">◇<span>Кошелёк</span></button>
 </nav>
 
 <div class="modal" id="chart_modal" onclick="closeChart()">
   <div class="modal-content" onclick="event.stopPropagation()">
-    <h2 id="chart_title">GRAM</h2>
-    <p style="color:var(--green)">Демонстрационный график</p>
+    <div class="modal-head"><h2 id="chart_title">GRAM</h2><button class="modal-close" onclick="closeChart()">×</button></div>
+    <div class="modal-caption">Условный график · демонстрационные данные</div>
     <canvas id="coin_chart"></canvas>
-    <p style="font-size:11px;opacity:.5">
-      График построен на условных данных.
-    </p>
-    <button class="close" onclick="closeChart()">ЗАКРЫТЬ</button>
+    <div class="notice" style="margin:12px 0 0">График не отражает реальные рыночные котировки.</div>
   </div>
 </div>
 
 <script>
-const assets = [
-  {id:'TON',name:'Toncoin',icon:'💎',price:'$2.10',balance:'12.5000'},
-  {id:'BTC',name:'Bitcoin',icon:'₿',price:'$95,000',balance:'0.0250'},
-  {id:'USDT',name:'Tether',icon:'₮',price:'$1.00',balance:'150.00'},
-  {id:'ETH',name:'Ethereum',icon:'◆',price:'$3,200',balance:'0.5000'},
-  {id:'SOL',name:'Solana',icon:'◎',price:'$180',balance:'2.5000'},
-  {id:'NEAR',name:'Near',icon:'Ⓝ',price:'$5.20',balance:'10.0000'},
-  {id:'USDC',name:'USD Coin',icon:'＄',price:'$1.00',balance:'75.00'},
-  {id:'DOGE',name:'Dogecoin',icon:'Ð',price:'$0.15',balance:'100.00'},
-  {id:'BNB',name:'BNB',icon:'◆',price:'$620',balance:'0.2000'}
+const assets=[
+ {id:'TON',name:'Toncoin',icon:'💎',price:'$2.10',balance:'12.5000'},
+ {id:'BTC',name:'Bitcoin',icon:'₿',price:'$95,000',balance:'0.0250'},
+ {id:'USDT',name:'Tether',icon:'₮',price:'$1.00',balance:'150.00'},
+ {id:'ETH',name:'Ethereum',icon:'◆',price:'$3,200',balance:'0.5000'},
+ {id:'SOL',name:'Solana',icon:'◎',price:'$180',balance:'2.5000'},
+ {id:'NEAR',name:'Near',icon:'Ⓝ',price:'$5.20',balance:'10.0000'},
+ {id:'USDC',name:'USD Coin',icon:'＄',price:'$1.00',balance:'75.00'},
+ {id:'DOGE',name:'Dogecoin',icon:'Ð',price:'$0.15',balance:'100.00'},
+ {id:'BNB',name:'BNB',icon:'◆',price:'$620',balance:'0.2000'}
 ];
-
 const list=document.getElementById('asset_list');
-
 assets.forEach(asset=>{
-  const row=document.createElement('div');
-  row.className='asset-item';
-
-  const icon=document.createElement('div');
-  icon.className='asset-icon';
-  icon.textContent=asset.icon;
-
-  const details=document.createElement('div');
-  details.className='asset-details';
-
-  const name=document.createElement('div');
-  name.className='asset-name';
-  name.textContent=asset.id==='TON'?'GRAM':asset.id;
-
-  if(asset.id==='TON'){
-    const badge=document.createElement('span');
-    badge.className='ton-badge';
-    badge.textContent='TON';
-    name.appendChild(badge);
-  }
-
-  const price=document.createElement('div');
-  price.className='asset-price';
-  price.textContent=asset.price;
-
-  details.append(name,price);
-
-  const chart=document.createElement('button');
-  chart.className='chart-btn';
-  chart.textContent='📈';
-  chart.setAttribute('aria-label','График '+asset.id);
-  chart.onclick=()=>openChart(asset);
-
-  const balance=document.createElement('div');
-  balance.className='balance';
-  balance.textContent=asset.balance;
-
-  row.append(icon,details,chart,balance);
-  list.appendChild(row);
+ const row=document.createElement('div');row.className='asset-item';
+ const icon=document.createElement('div');icon.className='asset-icon';icon.textContent=asset.icon;
+ const details=document.createElement('div');details.className='asset-details';
+ const name=document.createElement('div');name.className='asset-name';
+ name.textContent=asset.id==='TON'?'GRAM':asset.id;
+ if(asset.id==='TON'){const badge=document.createElement('span');badge.className='ton-badge';badge.textContent='TON';name.appendChild(badge);}
+ const price=document.createElement('div');price.className='asset-price';price.textContent=asset.price;
+ const symbol=document.createElement('div');symbol.className='asset-symbol';symbol.textContent=asset.name;
+ details.append(name,symbol,price);
+ const chart=document.createElement('button');chart.className='chart-btn';chart.type='button';chart.textContent='↗';
+ chart.setAttribute('aria-label','Открыть демонстрационный график '+asset.id);chart.onclick=()=>openChart(asset);
+ const right=document.createElement('div');right.className='asset-right';
+ const balance=document.createElement('div');balance.className='balance';balance.textContent=asset.balance;
+ const unit=document.createElement('div');unit.className='balance-unit';unit.textContent=asset.id==='TON'?'GRAM':' '+asset.id;
+ right.append(balance,unit);row.append(icon,details,chart,right);list.appendChild(row);
 });
-
 function showTab(id,button){
-  document.querySelectorAll('.screen')
-    .forEach(el=>el.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-
-  document.querySelectorAll('nav button')
-    .forEach(el=>el.classList.remove('active'));
-  button.classList.add('active');
+ document.querySelectorAll('.screen').forEach(el=>el.classList.remove('active'));
+ document.getElementById(id).classList.add('active');
+ document.querySelectorAll('nav button').forEach(el=>el.classList.remove('active'));
+ if(button)button.classList.add('active');
+ window.scrollTo({top:0,behavior:'smooth'});
 }
-
+function demoNotice(){document.getElementById('swap_notice').style.display='block';}
 function openChart(asset){
-  document.getElementById('chart_title').textContent=
-    asset.id==='TON'?'GRAM (TON)':asset.id;
-
-  document.getElementById('chart_modal').style.display='flex';
-  drawDemoChart();
+ document.getElementById('chart_title').textContent=asset.id==='TON'?'GRAM · TON':asset.id;
+ document.getElementById('chart_modal').style.display='flex';
+ requestAnimationFrame(drawDemoChart);
 }
-
-function closeChart(){
-  document.getElementById('chart_modal').style.display='none';
-}
-
+function closeChart(){document.getElementById('chart_modal').style.display='none';}
 function drawDemoChart(){
-  const canvas=document.getElementById('coin_chart');
-  const rect=canvas.getBoundingClientRect();
-  const ratio=window.devicePixelRatio||1;
-
-  canvas.width=rect.width*ratio;
-  canvas.height=190*ratio;
-
-  const ctx=canvas.getContext('2d');
-  ctx.scale(ratio,ratio);
-
-  const w=rect.width;
-  const h=190;
-  const points=[110,95,120,85,100,65,90,55,75,40,60,30];
-
-  ctx.beginPath();
-  points.forEach((y,i)=>{
-    const x=i*(w/(points.length-1));
-    if(i===0)ctx.moveTo(x,y);
-    else ctx.lineTo(x,y);
-  });
-
-  ctx.strokeStyle='#4DB8FF';
-  ctx.lineWidth=2;
-  ctx.stroke();
+ const canvas=document.getElementById('coin_chart');const rect=canvas.getBoundingClientRect();
+ const ratio=window.devicePixelRatio||1;const w=rect.width;const h=190;
+ canvas.width=w*ratio;canvas.height=h*ratio;
+ const ctx=canvas.getContext('2d');ctx.setTransform(ratio,0,0,ratio,0,0);ctx.clearRect(0,0,w,h);
+ const pts=[132,119,126,95,108,82,91,68,78,51,61,35];
+ ctx.strokeStyle='#b7f36b';ctx.lineWidth=2.5;ctx.lineJoin='round';ctx.beginPath();
+ pts.forEach((y,i)=>{const x=i*w/(pts.length-1);if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);});ctx.stroke();
+ ctx.lineTo(w,h);ctx.lineTo(0,h);ctx.closePath();
+ const grad=ctx.createLinearGradient(0,0,0,h);grad.addColorStop(0,'rgba(183,243,107,.22)');grad.addColorStop(1,'rgba(183,243,107,0)');
+ ctx.fillStyle=grad;ctx.fill();
 }
+window.addEventListener('resize',()=>{if(document.getElementById('chart_modal').style.display==='flex')drawDemoChart();});
 </script>
 </body>
 </html>
